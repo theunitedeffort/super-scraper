@@ -52,9 +52,6 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                 errorMessage: err.message,
             });
 
-            if (transparentStatusCode) {
-                request.noRetry = true;
-            }
         },
         failedRequestHandler: async ({ request, response, page }, err) => {
             const {
