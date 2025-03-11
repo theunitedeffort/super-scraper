@@ -24,7 +24,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
     const crawler = new PlaywrightCrawler({
         keepAlive: true,
         proxyConfiguration: proxyConfig,
-        maxRequestRetries: 3,
+        maxRequestRetries: 2,
         requestQueue: queue,
         launchContext: {
             browserPerProxy: false,
