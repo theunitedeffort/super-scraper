@@ -105,6 +105,9 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             }
         },
         preNavigationHooks: [
+            async ({ page }) => {
+                page.on('request', (req) => console.log(req.url()))
+            },
             async ({ request, page, blockRequests }) => {
                 log.debug('preNavigationHook entered.');
                 const { timeMeasures, blockResources, width, height, blockResourceTypes, jsonResponse, requestDetails } = request.userData as UserData;
