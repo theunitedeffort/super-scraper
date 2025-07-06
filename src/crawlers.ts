@@ -106,22 +106,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         },
         preNavigationHooks: [
             async ({ page }) => {
-                page.on('request', (req) => console.log(`${req.url()} (${req.resourceType()})`))
-            },
-            async ({ page }) => {
-                page.on('response', (resp) => console.log(`${resp.url()} : ${resp.status()}`))
-            },
-            async ({ page }) => {
-                await page.route('**/*', async (route) => {
-                    console.log(`Request url: ${route.request().url()}`);
-                    if (['media', 'image', 'font', 'stylesheet'].includes(route.request().resourceType())) {
-                        console.log(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
-                        return route.abort();
-                    } else {
-                        console.log('Continuing');
-                        return route.continue();
-                    }
-                });
+                page.on('response', (resp) => console.log(`${resp.url()} (${resp.request().resourceType()}) : ${resp.status()}`))
             },
             async ({ request, page, blockRequests }) => {
                 log.debug('preNavigationHook entered.');
@@ -135,23 +120,18 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
                 if (request.label === Label.BROWSER && blockResources) {
                     await blockRequests({
-                        extraUrlPatterns: ['*.svg', 'scene7.com'],
+                        extraUrlPatterns: ['*.svg', 'scene7.com', 'gvt1.com', 'googletagmanager.com', 'cookielaw.org'],
                     });
                 }
 
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
-                    log.info('Resource blocking requested');
-                    // await page.route('**/*', async (route) => {
-                    //     log.info(`Request url: ${route.request().url()}`);
-                    //     if (blockResourceTypes.includes(route.request().resourceType())) {
-                    //         log.info(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
-                    //         return route.abort();
-                    //     } else {
-                    //         log.info('Continuing');
-                    //         return route.continue();
-                    //     }
-                    // });
-                    log.info('Resource blocking set');
+                    await page.route('**/*', async (route) => {
+                        if (blockResourceTypes.includes(route.request().resourceType())) {
+                            return route.abort();
+                        } else {
+                            return route.continue();
+                        }
+                    });
                 }
 
                 if (request.label === Label.BROWSER && jsonResponse) {
