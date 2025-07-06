@@ -123,6 +123,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
                     await page.route('**', async (route) => {
                         if (blockResourceTypes.includes(route.request().resourceType())) {
+                            log.debug(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
                             await route.abort();
                         }
                     });
