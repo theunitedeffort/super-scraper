@@ -67,10 +67,4 @@ const server = createServer(async (req, res) => {
 const port = Actor.isAtHome() ? process.env.ACTOR_STANDBY_PORT : 8080;
 server.listen(port, async () => {
     log.info('SuperScraper is listening for user requests');
-
-    // Pre-create common crawlers because crawler init can take about 1 sec
-    await Promise.all([
-        createAndStartCrawler(DEFAULT_CRAWLER_OPTIONS),
-        createAndStartCrawler({ ...DEFAULT_CRAWLER_OPTIONS, proxyConfigurationOptions: { groups: ['RESIDENTIAL'] } }),
-    ]);
 });
