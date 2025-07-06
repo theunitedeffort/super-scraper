@@ -106,10 +106,10 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         },
         preNavigationHooks: [
             async ({ page }) => {
-                page.on('request', (req) => console.log(req.url()))
+                page.on('request', (req) => console.log(`${req.url()} (${req.resourceType()})`))
             },
             async ({ page }) => {
-                page.on('response', (resp) => console.log(`${resp.url()}: ${resp.status()}`))
+                page.on('response', (resp) => console.log(`${resp.url()} : ${resp.status()}`))
             },
             async ({ page }) => {
                 await page.route('**/*', async (route) => {
