@@ -125,11 +125,11 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                 }
 
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
-                    await page.route('**/*', async (route) => {
+                    // This does not seem to do anything.  No blocking observed, perhaps because of the other blockRequests
+                    // method used above?
+                    await page.route('**', async (route) => {
                         if (blockResourceTypes.includes(route.request().resourceType())) {
-                            return route.abort();
-                        } else {
-                            return route.continue();
+                            await route.abort();
                         }
                     });
                 }
