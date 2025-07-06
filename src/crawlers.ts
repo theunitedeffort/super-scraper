@@ -26,6 +26,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         keepAlive: true,
         proxyConfiguration: proxyConfig,
         maxRequestRetries: 4,
+        maxConcurrency: 1,
         requestQueue: queue,
         launchContext: {
             browserPerProxy: false,
