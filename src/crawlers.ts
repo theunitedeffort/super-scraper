@@ -40,6 +40,9 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             persistenceOptions: {
                 enable: false,
             },
+            sessionOptions: {
+                maxErrorScore: 1,
+            },
         },
         errorHandler: async ({ request }, err) => {
             const { requestDetails, timeMeasures, transparentStatusCode } = request.userData as UserData;
