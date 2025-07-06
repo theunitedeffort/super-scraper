@@ -135,7 +135,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
                 if (request.label === Label.BROWSER && blockResources) {
                     await blockRequests({
-                        extraUrlPatterns: ['*.svg'],
+                        extraUrlPatterns: ['*.svg', 'scene7.com'],
                     });
                 }
 
