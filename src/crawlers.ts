@@ -133,6 +133,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                             return route.continue();
                         }
                     });
+                    log.info('Resource blocking set');
                 }
 
                 if (request.label === Label.BROWSER && jsonResponse) {
