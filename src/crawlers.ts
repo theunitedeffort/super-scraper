@@ -108,6 +108,21 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             async ({ page }) => {
                 page.on('request', (req) => console.log(req.url()))
             },
+            async ({ page }) => {
+                page.on('response', (resp) => console.log(`${resp.url()}: ${resp.status()}`))
+            },
+            async ({ page }) => {
+                await page.route('**/*', async (route) => {
+                    console.log(`Request url: ${route.request().url()}`);
+                    if (blockResourceTypes.includes(route.request().resourceType())) {
+                        console.log(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
+                        return route.abort();
+                    } else {
+                        console.log('Continuing');
+                        return route.continue();
+                    }
+                });
+            },
             async ({ request, page, blockRequests }) => {
                 log.debug('preNavigationHook entered.');
                 const { timeMeasures, blockResources, width, height, blockResourceTypes, jsonResponse, requestDetails } = request.userData as UserData;
@@ -126,16 +141,16 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
                     log.info('Resource blocking requested');
-                    await page.route('**/*', async (route) => {
-                        log.info(`Request url: ${route.request().url()}`);
-                        if (blockResourceTypes.includes(route.request().resourceType())) {
-                            log.info(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
-                            return route.abort();
-                        } else {
-                            log.info('Continuing');
-                            return route.continue();
-                        }
-                    });
+                    // await page.route('**/*', async (route) => {
+                    //     log.info(`Request url: ${route.request().url()}`);
+                    //     if (blockResourceTypes.includes(route.request().resourceType())) {
+                    //         log.info(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
+                    //         return route.abort();
+                    //     } else {
+                    //         log.info('Continuing');
+                    //         return route.continue();
+                    //     }
+                    // });
                     log.info('Resource blocking set');
                 }
 
