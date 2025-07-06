@@ -122,12 +122,15 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                 }
 
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
-                    log.debug('Resource blocking requested');
-                    await page.route('**', async (route) => {
-                        log.debug(`Request url: ${route.request().url()}`);
+                    log.info('Resource blocking requested');
+                    await page.route('**/*', async (route) => {
+                        log.info(`Request url: ${route.request().url()}`);
                         if (blockResourceTypes.includes(route.request().resourceType())) {
-                            log.debug(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
-                            await route.abort();
+                            log.info(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
+                            return route.abort();
+                        } else {
+                            log.info('Continuing');
+                            return route.continue();
                         }
                     });
                 }
