@@ -9,7 +9,7 @@ import { pushLogData } from './utils.js';
 
 export const router = createPlaywrightRouter();
 
-router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio }) => {
+router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio, proxyInfo }) => {
     const {
         requestDetails,
         jsonResponse,
@@ -31,6 +31,8 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
         event: 'page loaded',
         time: Date.now(),
     });
+
+    log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
 
     const jsScenarioReportFull: FullJsScenarioReport = {};
     if (jsScenario.instructions.length) {
@@ -139,7 +141,7 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     sendSuccResponseById(responseId, htmlResult, 'text/html');
 });
 
-router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest }) => {
+router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest, proxyInfo }) => {
     const {
         requestDetails,
         jsonResponse,
@@ -151,7 +153,9 @@ router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest }) => {
 
     // See comment in crawler.autoscaledPoolOptions.runTaskFunction override
     timeMeasures.push((global as unknown as { latestRequestTaskTimeMeasure: TimeMeasure }).latestRequestTaskTimeMeasure);
-
+    
+    log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+    
     const responseId = request.uniqueKey;
 
     const resp = await sendRequest({
