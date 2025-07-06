@@ -106,6 +106,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         },
         preNavigationHooks: [
             async ({ request, page, blockRequests }) => {
+                log.debug('preNavigationHook entered.');
                 const { timeMeasures, blockResources, width, height, blockResourceTypes, jsonResponse, requestDetails } = request.userData as UserData;
                 timeMeasures.push({
                     event: 'pre-navigation hook',
@@ -121,7 +122,9 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
                 }
 
                 if (request.label === Label.BROWSER && blockResourceTypes.length) {
+                    log.debug('Resource blocking requested');
                     await page.route('**', async (route) => {
+                        log.debug(`Request url: ${route.request().url()}`);
                         if (blockResourceTypes.includes(route.request().resourceType())) {
                             log.debug(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
                             await route.abort();
