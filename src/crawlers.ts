@@ -16,6 +16,7 @@ export const DEFAULT_CRAWLER_OPTIONS: CrawlerOptions = {
 };
 
 export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEFAULT_CRAWLER_OPTIONS) => {
+    log.info(`Creating and starting crawler with options: ${JSON.stringify(crawlerOptions, null, 2)}`);
     const client = new MemoryStorage();
     const queue = await RequestQueue.open(undefined, { storageClient: client });
 
