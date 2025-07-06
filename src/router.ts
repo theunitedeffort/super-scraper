@@ -32,7 +32,9 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
         time: Date.now(),
     });
 
-    log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+    if (proxyInfo) {
+      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+    }
 
     const jsScenarioReportFull: FullJsScenarioReport = {};
     if (jsScenario.instructions.length) {
@@ -153,8 +155,10 @@ router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest, proxyInfo
 
     // See comment in crawler.autoscaledPoolOptions.runTaskFunction override
     timeMeasures.push((global as unknown as { latestRequestTaskTimeMeasure: TimeMeasure }).latestRequestTaskTimeMeasure);
-    
-    log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+
+    if (proxyInfo) {
+      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+    }
     
     const responseId = request.uniqueKey;
 
