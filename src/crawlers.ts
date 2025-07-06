@@ -114,7 +114,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             async ({ page }) => {
                 await page.route('**/*', async (route) => {
                     console.log(`Request url: ${route.request().url()}`);
-                    if (blockResourceTypes.includes(route.request().resourceType())) {
+                    if (['media', 'image', 'font', 'stylesheet'].includes(route.request().resourceType())) {
                         console.log(`Blocking ${route.request().resourceType()} request with url: ${route.request().url()}`);
                         return route.abort();
                     } else {
