@@ -33,7 +33,7 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     });
 
     if (proxyInfo) {
-      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}, proxyTier: ${proxyInfo.proxyTier}`);
     }
 
     const jsScenarioReportFull: FullJsScenarioReport = {};
@@ -157,7 +157,7 @@ router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest, proxyInfo
     timeMeasures.push((global as unknown as { latestRequestTaskTimeMeasure: TimeMeasure }).latestRequestTaskTimeMeasure);
 
     if (proxyInfo) {
-      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}`);
+      console.log(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}, proxyTier: ${proxyInfo.proxyTier}`);
     }
     
     const responseId = request.uniqueKey;
