@@ -121,7 +121,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
                 if (request.label === Label.BROWSER && blockResources) {
                     await blockRequests({
-                        extraUrlPatterns: ['*.svg', 'scene7.com', 'gvt1.com', 'googletagmanager.com', 'cookielaw.org'],
+                        extraUrlPatterns: ['scene7.com', 'gvt1.com', 'assets.prometheusapartments.com', 'facebook.com', 'googletagmanager.com', 'cookielaw.org', 'typekit.net', 'fonts.googleapis.com', '.woff2'],
                     });
                 }
 
