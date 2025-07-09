@@ -180,19 +180,15 @@ export function createRequestForCrawler(params: ParsedUrlQuery, req: IncomingMes
         screenshotSettings.selector = params[ScrapingBee.screenshotSelector];
     }
 
-    let blockResourceTypes: string[] = [];
+    let blockResourcePatterns: string[] = [];
     if (params[ScrapingAnt.blockResource]) {
         const paramValue = params[ScrapingAnt.blockResource];
         const resources = Array.isArray(paramValue) ? paramValue : [paramValue];
         const resourcesToBlock = new Set<string>();
         for (const resource of resources) {
-            if (isValidResourceType(resource)) {
-                resourcesToBlock.add(resource);
-            } else {
-                throw new UserInputError(`Unsupported value in block_resource: ${resource}`);
-            }
+            resourcesToBlock.add(resource);
         }
-        blockResourceTypes = Array.from(resourcesToBlock.values());
+        blockResourcePatterns = Array.from(resourcesToBlock.values());
     }
 
     let binaryTarget = false;
@@ -222,7 +218,7 @@ export function createRequestForCrawler(params: ParsedUrlQuery, req: IncomingMes
             height: Number.parseInt(params[ScrapingBee.windowHeight] as string, 10) || 1080,
             returnPageSource: params[ScrapingBee.returnPageSource] === 'true',
             transparentStatusCode: params[ScrapingBee.transparentStatusCode] === 'true',
-            blockResourceTypes,
+            blockResourcePatterns,
             binaryTarget,
         },
     };

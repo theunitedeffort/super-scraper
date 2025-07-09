@@ -111,7 +111,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             },
             async ({ request, page, blockRequests }) => {
                 log.debug('preNavigationHook entered.');
-                const { timeMeasures, blockResources, width, height, blockResourceTypes, jsonResponse, requestDetails } = request.userData as UserData;
+                const { timeMeasures, blockResources, width, height, blockResourcePatterns, jsonResponse, requestDetails } = request.userData as UserData;
                 timeMeasures.push({
                     event: 'pre-navigation hook',
                     time: Date.now(),
@@ -121,17 +121,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
                 if (request.label === Label.BROWSER && blockResources) {
                     await blockRequests({
-                        extraUrlPatterns: ['scene7.com', 'gvt1.com', 'assets.prometheusapartments.com', 'facebook.com', 'googletagmanager.com', 'cookielaw.org', 'typekit.net', 'fonts.googleapis.com', '.woff2'],
-                    });
-                }
-
-                if (request.label === Label.BROWSER && blockResourceTypes.length) {
-                    // This does not seem to do anything.  No blocking observed, perhaps because of the other blockRequests
-                    // method used above?
-                    await page.route('**', async (route) => {
-                        if (blockResourceTypes.includes(route.request().resourceType())) {
-                            await route.abort();
-                        }
+                        extraUrlPatterns: blockResourcePatterns || [],
                     });
                 }
 
