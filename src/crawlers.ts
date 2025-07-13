@@ -109,8 +109,12 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             async ({ page }) => {
                 page.on('response', (resp) => console.log(`${resp.url()} (${resp.request().resourceType()}) : ${resp.status()}`))
             },
-            async ({ request, page, blockRequests }) => {
+            async ({ request, page, blockRequests, browserController, proxyInfo }) => {
                 log.debug('preNavigationHook entered.');
+                log.debug(`Browser has ${browserController.activePages} active pages.`);
+                if (proxyInfo) {
+                  log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}, proxyTier: ${proxyInfo.proxyTier}`);
+                }
                 const { timeMeasures, blockResources, width, height, blockResourcePatterns, jsonResponse, requestDetails } = request.userData as UserData;
                 timeMeasures.push({
                     event: 'pre-navigation hook',
