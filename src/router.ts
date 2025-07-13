@@ -9,7 +9,7 @@ import { pushLogData } from './utils.js';
 
 export const router = createPlaywrightRouter();
 
-router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio, proxyInfo }) => {
+router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio }) => {
     const {
         requestDetails,
         jsonResponse,
@@ -139,7 +139,7 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     sendSuccResponseById(responseId, htmlResult, 'text/html');
 });
 
-router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest, proxyInfo }) => {
+router.addHandler<UserData>(Label.HTTP, async ({ request, sendRequest }) => {
     const {
         requestDetails,
         jsonResponse,
