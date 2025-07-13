@@ -183,6 +183,8 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
     await crawler.stats.stopCapturing();
     crawler.run().then(() => log.warning(`Crawler ended`, crawlerOptions), () => { });
     crawlers.set(JSON.stringify(crawlerOptions), crawler);
+    log.info('Opening separate blank page to keep browser alive.');
+    crawler.browserPool.newPage();
     log.info('Crawler ready 🫡', crawlerOptions);
     return crawler;
 };
