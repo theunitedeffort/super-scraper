@@ -25,13 +25,21 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
     const crawler = new PlaywrightCrawler({
         keepAlive: true,
         proxyConfiguration: proxyConfig,
-        maxRequestRetries: 4,
+        maxRequestRetries: 1,
         maxConcurrency: 1,
         requestQueue: queue,
         useSessionPool: true,
+        // retryOnBlocked: true,
         launchContext: {
-            browserPerProxy: false,
+            browserPerProxy: false,  // maybe change this to true
+            // useIncognitoPages: true,  // maybe true will help -- seems like??
         },
+        // browserPoolOptions: {
+        //     useFingerprints: true,  // defaults to true anyway
+        //     fingerprintOptions: {
+        //         useFingerprintCache: true,  // might already default to true
+        //     },
+        // },
         statisticsOptions: {
             persistenceOptions: {
                 enable: false,

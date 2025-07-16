@@ -10,7 +10,7 @@ import { pushLogData } from './utils.js';
 
 export const router = createPlaywrightRouter();
 
-router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio }) => {
+router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, parseWithCheerio, crawler }) => {
     const {
         requestDetails,
         jsonResponse,
@@ -46,6 +46,10 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     const statusCode = response?.status() || null;
     log.info(`Status code: ${statusCode}`);
     if (statusCode >= 300) {
+        log.debug('closing all browsers');
+        await crawler.browserPool.closeAllBrowsers();
+        log.debug('opening new page in new browser');
+        await crawler.browserPool.newPageInNewBrowser();
         throw new Error(`HTTPError: Response code ${statusCode}`);
     }
 
