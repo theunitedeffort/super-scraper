@@ -26,9 +26,18 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         proxyConfiguration: proxyConfig,
         maxRequestRetries: 4,
         requestQueue: queue,
+        useSessionPool: true,
+        // retryOnBlocked: true,
         launchContext: {
-            browserPerProxy: false,
+            browserPerProxy: false,  // maybe change this to true
+            useIncognitoPages: true,  // maybe this will help -- seems like??
         },
+        // browserPoolOptions: {
+        //     useFingerprints: true,  // defaults to true anyway
+        //     fingerprintOptions: {
+        //         useFingerprintCache: true,  // might already default to true
+        //     },
+        // },
         statisticsOptions: {
             persistenceOptions: {
                 enable: false,
