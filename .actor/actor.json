@@ -7,6 +7,10 @@
 	"meta": {
 		"templateId": "ts-crawlee-playwright-chrome"
 	},
+	"environmentVariables": {
+		"DEBUG": "pw:api",
+		"APIFY_LOG_LEVEL": "DEBUG"
+	},
 	"input": "./input_schema.json",
 	"dockerfile": "./Dockerfile"
 }
