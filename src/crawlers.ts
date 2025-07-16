@@ -124,9 +124,18 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             async ({ page }) => {
                 page.on('response', (resp) => console.log(`${resp.url()} (${resp.request().resourceType()}) : ${resp.status()}`))
             },
-            async ({ request, page, blockRequests, browserController, proxyInfo }) => {
+            async ({ request, page, blockRequests, browserController, proxyInfo, crawler }) => {
                 log.debug('preNavigationHook entered.');
                 log.debug(`Browser has ${browserController.activePages} active pages.`);
+                log.debug(`BrowserPool has ${crawler.browserPool.activeBrowserControllers.size} active browserControllers:`);
+                crawler.browserPool.activeBrowserControllers.forEach((bc) => {
+                    log.debug(`\t${bc.id}`);
+                })
+                if (browserController.activePages == 1) {
+                    log.info('Opening separate blank page to keep browser alive.');
+                    await crawler.browserPool.newPage();
+                    log.debug(`Browser has ${browserController.activePages} active pages.`);
+                }
                 if (proxyInfo) {
                   log.info(`ProxyInfo - url: ${proxyInfo.url}, hostname: ${proxyInfo.hostname}, proxyTier: ${proxyInfo.proxyTier}`);
                 }
@@ -198,8 +207,6 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
     await crawler.stats.stopCapturing();
     crawler.run().then(() => log.warning(`Crawler ended`, crawlerOptions), () => { });
     crawlers.set(JSON.stringify(crawlerOptions), crawler);
-    log.info('Opening separate blank page to keep browser alive.');
-    crawler.browserPool.newPage();
     log.info('Crawler ready 🫡', crawlerOptions);
     return crawler;
 };

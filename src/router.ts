@@ -49,7 +49,7 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
         log.debug('closing all browsers');
         await crawler.browserPool.closeAllBrowsers();
         log.debug('opening new page in new browser');
-        await crawler.browserPool.newPageInNewBrowser();
+        await crawler.browserPool.newPage();
         throw new Error(`HTTPError: Response code ${statusCode}`);
     }
 
