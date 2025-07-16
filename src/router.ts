@@ -45,7 +45,7 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     const $ = await parseWithCheerio();
     const statusCode = response?.status() || null;
     log.info(`Status code: ${statusCode}`);
-    if (statusCode >= 300) {
+    if (statusCode && statusCode >= 300) {
         log.debug('closing all browsers');
         await crawler.browserPool.closeAllBrowsers();
         log.debug('opening new page in new browser');

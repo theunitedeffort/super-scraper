@@ -33,6 +33,13 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         launchContext: {
             browserPerProxy: false,  // maybe change this to true
             // useIncognitoPages: true,  // maybe true will help -- seems like??
+            launchOptions: {
+                args: [
+                  '--disable-component-update',
+                  '--disable-extensions',
+                  '--disable-default-apps',
+                ],
+            },
         },
         // browserPoolOptions: {
         //     useFingerprints: true,  // defaults to true anyway
