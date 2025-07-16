@@ -9,7 +9,7 @@
 		"templateId": "ts-crawlee-playwright-chrome"
 	},
 	"environmentVariables": {
-		"DEBUG": "pw:api",
+		"DEBUG": "pw:api"
 	},
 	"input": "./input_schema.json",
 	"dockerfile": "./Dockerfile"
