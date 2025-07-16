@@ -43,6 +43,10 @@ router.addHandler<UserData>(Label.BROWSER, async ({ request, page, response, par
     requestDetails.responseHeaders = response?.headers() || {};
     const $ = await parseWithCheerio();
     const statusCode = response?.status() || null;
+    log.info(`Status code: ${statusCode}`);
+    if (statusCode >= 300) {
+        throw new Error(`HTTPError: Response code ${statusCode}`);
+    }
 
     const cookies = await page.context().cookies(request.url) || [];
 
