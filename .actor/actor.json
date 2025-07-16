@@ -4,6 +4,7 @@
 	"title": "Project Playwright Crawler Typescript",
 	"description": "Crawlee and Playwright project in typescript.",
 	"version": "0.0",
+	"buildTag": "dev",
 	"meta": {
 		"templateId": "ts-crawlee-playwright-chrome"
 	},
