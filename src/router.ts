@@ -1,3 +1,4 @@
+import { log } from 'apify';
 import { createPlaywrightRouter } from 'crawlee';
 import { CheerioAPI, load } from 'cheerio';
 import { Label } from './const.js';
