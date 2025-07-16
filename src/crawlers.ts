@@ -31,6 +31,11 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
         useSessionPool: true,
         launchContext: {
             browserPerProxy: false,
+            launchOptions: {
+                args: [
+                  '--disable-component-update',
+                ],
+            },
         },
         statisticsOptions: {
             persistenceOptions: {
