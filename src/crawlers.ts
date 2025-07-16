@@ -34,6 +34,8 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
             launchOptions: {
                 args: [
                   '--disable-component-update',
+                  '--disable-extensions',
+                  '--disable-default-apps',
                 ],
             },
         },
