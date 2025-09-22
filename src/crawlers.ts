@@ -24,7 +24,7 @@ export const createAndStartCrawler = async (crawlerOptions: CrawlerOptions = DEF
 
     const crawler = new PlaywrightCrawler({
         keepAlive: true,
-        navigationTimeoutSecs: 100,
+        navigationTimeoutSecs: 200,
         proxyConfiguration: proxyConfig,
         maxRequestRetries: 4,
         maxConcurrency: 1,
